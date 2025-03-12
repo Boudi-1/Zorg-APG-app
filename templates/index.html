@@ -1,0 +1,216 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ title|default('Dashboard') }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h1 class="h3 mb-0 text-gray-800">{{ app_name|default('Dagvaardingen Automatisering') }}</h1>
+                        <p class="text-muted mt-2">
+                            {% if app_description %}
+                                {{ app_description }}
+                            {% else %}
+                                Welkom bij het Dagvaardingen Automatisering systeem van <strong>Flanderijn B.V.</strong> Volg de drie stappen hieronder om dagvaardingen automatisch te genereren.
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="ms-auto">
+                        <img src="/static/images/flanderijn-logo.svg" alt="Flanderijn B.V. Logo" style="height: 60px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not app_name %}
+<!-- Workflow Diagram -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Workflow Proces</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 workflow-step text-center">
+                        <div class="step-number">1</div>
+                        <h5>Templates Voorbereiden</h5>
+                        <p>Upload Excel bestanden en Word templates voor dagvaardingen. Het systeem zoekt de juiste eisen in de Excel bestanden en past de templates aan.</p>
+                        <a href="{{ url_for('app1_index') }}" class="btn btn-primary mt-2">
+                            <i class="fas fa-arrow-right me-1"></i> Naar Stap 1
+                        </a>
+                    </div>
+                    <div class="col-md-4 workflow-step text-center">
+                        <div class="step-number">2</div>
+                        <h5>Facturen Verwerken</h5>
+                        <p>Upload PDF facturen die verwerkt moeten worden. Het systeem extraheert de data en plaatst deze in een Excel template. <strong>Let op:</strong> U dient zelf de BGK, Rente en Ontvangst in te vullen in de Excel template, evenals de datum en bedragen van reeds ontvangen betalingen.</p>
+                        <a href="{{ url_for('app2_index') }}" class="btn btn-primary mt-2">
+                            <i class="fas fa-arrow-right me-1"></i> Naar Stap 2
+                        </a>
+                    </div>
+                    <div class="col-md-4 workflow-step text-center">
+                        <div class="step-number">3</div>
+                        <h5>Dagvaardingen Genereren</h5>
+                        <p>Combineer de output van stap 1 en 2 om de definitieve dagvaardingen te genereren en te exporteren.</p>
+                        <a href="{{ url_for('app3_index') }}" class="btn btn-primary mt-2">
+                            <i class="fas fa-arrow-right me-1"></i> Naar Stap 3
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Status Cards -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Workflow Stappen</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-tasks fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Systeem Status</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Actief</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Verwerking</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Automatisch</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-robot fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Support Contact</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">i.boudinov@flanderijn.nl</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-envelope fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Informatie en Help -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Informatie & Help</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-info-circle me-2 text-primary"></i>Over deze applicatie</h5>
+                        <p>Deze applicatie is ontwikkeld voor Flanderijn B.V. om het proces van dagvaardingen genereren te automatiseren. Het systeem verwerkt facturen, genereert de juiste documenten en zorgt voor een efficiënte workflow.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-question-circle me-2 text-primary"></i>Hulp nodig?</h5>
+                        <p>Voor vragen of ondersteuning kunt u contact opnemen met:</p>
+                        <p><strong>Support:</strong> <a href="mailto:i.boudinov@flanderijn.nl">i.boudinov@flanderijn.nl</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- App-specific content -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i> U bevindt zich nu in {{ app_name }}. Gebruik de navigatie om tussen de verschillende stappen te schakelen.
+                </div>
+                
+                <div class="text-center my-5">
+                    {% if '/app1' in request.path %}
+                    <i class="fas fa-file-word fa-5x mb-4 text-primary"></i>
+                    <h4>Stap 1: Templates Voorbereiden</h4>
+                    <p class="lead">Upload Excel bestanden en Word templates voor dagvaardingen.</p>
+                    <div class="mt-4">
+                        <a href="{{ url_for('app2_index') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-right me-1"></i> Ga naar Stap 2
+                        </a>
+                    </div>
+                    {% elif '/app2' in request.path %}
+                    <i class="fas fa-file-invoice fa-5x mb-4 text-primary"></i>
+                    <h4>Stap 2: Facturen Verwerken</h4>
+                    <p class="lead">Upload PDF facturen die verwerkt moeten worden.</p>
+                    <p><strong>Let op:</strong> U dient zelf de BGK, Rente en Ontvangst in te vullen in de Excel template, evenals de datum en bedragen van reeds ontvangen betalingen.</p>
+                    <div class="mt-4">
+                        <a href="{{ url_for('app1_index') }}" class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-arrow-left me-1"></i> Terug naar Stap 1
+                        </a>
+                        <a href="{{ url_for('app3_index') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-right me-1"></i> Ga naar Stap 3
+                        </a>
+                    </div>
+                    {% elif '/app3' in request.path %}
+                    <i class="fas fa-file-signature fa-5x mb-4 text-primary"></i>
+                    <h4>Stap 3: Dagvaardingen Genereren</h4>
+                    <p class="lead">Combineer de output van stap 1 en 2 om de definitieve dagvaardingen te genereren.</p>
+                    <div class="mt-4">
+                        <a href="{{ url_for('app2_index') }}" class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-arrow-left me-1"></i> Terug naar Stap 2
+                        </a>
+                        <a href="{{ url_for('home') }}" class="btn btn-outline-success">
+                            <i class="fas fa-check me-1"></i> Voltooi Proces
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %} 

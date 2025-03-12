@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verwerking Voltooid | Document Processor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #27ae60;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex: 1;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            color: white !important;
+        }
+        
+        .success-header {
+            background-color: var(--success-color);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .success-header h1 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .success-header p {
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            border-top-left-radius: 8px !important;
+            border-top-right-radius: 8px !important;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+        
+        .btn-outline-success {
+            color: var(--success-color);
+            border-color: var(--success-color);
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-outline-success:hover {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .alert {
+            border-radius: 8px;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .download-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .file-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .download-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .download-info {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin: 0 1rem;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #3498db;
+            animation: confetti-fall 3s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(500px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .preview-container {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            height: 200px;
+            overflow: auto;
+            background-color: #f8f9fa;
+            margin-bottom: 1.5rem;
+        }
+        
+        .file-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 50px;
+            background-color: #e9ecef;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-badge i {
+            margin-right: 0.25rem;
+        }
+        
+        .file-badge.docx {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+        
+        .file-badge.zip {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+        }
+        
+        .download-card {
+            transition: all 0.3s ease;
+        }
+        
+        .download-card:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .progress {
+            height: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Confetti Animation Container -->
+    <div class="confetti-container" id="confetti"></div>
+    
+    <!-- Navigatiebalk -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-file-earmark-text me-2"></i>
+                Document Processor
+            </a>
+            <div class="ms-auto">
+                <a href="/terug-naar-dashboard" class="btn btn-outline-light btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Terug naar Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Success Header -->
+    <div class="success-header text-center">
+        <div class="container">
+            <i class="bi bi-check-circle-fill display-1 mb-3"></i>
+            <h1>Verwerking Voltooid!</h1>
+            <p>Uw document(en) zijn succesvol verwerkt en staan klaar om te downloaden</p>
+        </div>
+    </div>
+    
+    <main>
+        <div class="container">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show mb-4" role="alert">
+                            {% if category == 'success' %}<i class="bi bi-check-circle-fill me-2"></i>{% endif %}
+                            {% if category == 'danger' %}<i class="bi bi-exclamation-triangle-fill me-2"></i>{% endif %}
+                            {% if category == 'warning' %}<i class="bi bi-exclamation-circle-fill me-2"></i>{% endif %}
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Download Card -->
+                    <div class="card mb-4">
+                        <div class="card-header d-flex align-items-center">
+                            <i class="bi bi-cloud-download me-2"></i>
+                            Download Verwerkte Document(en)
+                        </div>
+                        <div class="card-body text-center">
+                            <i class="bi bi-file-earmark-zip display-1 text-primary mb-4"></i>
+                            
+                            <h3 class="mb-3">Verwerking is succesvol afgerond</h3>
+                            <p class="text-muted mb-4">Uw document(en) zijn klaar om te downloaden. Klik op de knop hieronder om het ZIP-bestand te ontvangen.</p>
+                            
+                            <div class="download-info-container mb-4 text-start bg-light p-3 rounded">
+                                <div class="mb-2"><strong>Bestandsnaam:</strong> {{ zip_filename }}</div>
+                                <div class="mb-2"><strong>Type:</strong> ZIP archief</div>
+                                <div><strong>Inhoud:</strong> Word document(en) (.docx)</div>
+                            </div>
+                            
+                            <a href="/app3/download_file?filename={{ zip_filename }}" class="btn btn-primary btn-lg">
+                                <i class="bi bi-download me-2"></i>Download Nu
+                            </a>
+                            
+                            <div class="mt-4">
+                                <a href="/app3/" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-2"></i>Terug naar hoofdpagina
+                                </a>
+                                <a href="/terug-naar-dashboard" class="btn btn-outline-primary ms-2">
+                                    <i class="bi bi-house me-2"></i>Terug naar Dashboard
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Extra Info -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Wat Gebeurt Er Nu?
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="feature-item">
+                                        <h5><i class="bi bi-file-earmark-check text-success me-2"></i>Verwerkte Documenten</h5>
+                                        <p>De documenten zijn verwerkt met de volgende bewerkingen:</p>
+                                        <ul>
+                                            <li>Placeholders vervangen door gegevens uit Excel</li>
+                                            <li>Overbodige secties verwijderd</li>
+                                            <li>Document opgeschoond en geoptimaliseerd</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="feature-item">
+                                        <h5><i class="bi bi-hand-thumbs-up text-primary me-2"></i>Volgende Stappen</h5>
+                                        <p>Na het downloaden kunt u:</p>
+                                        <ul>
+                                            <li>De documenten controleren op juistheid</li>
+                                            <li>Eventueel handmatig aanpassingen maken</li>
+                                            <li>De documenten gebruiken voor uw doeleinden</li>
+                                            <li>Terugkeren naar de hoofdpagina voor nieuwe verwerkingen</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>Document Processor &copy; 2025 | Alle rechten voorbehouden</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Confetti animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const confettiContainer = document.getElementById('confetti');
+            const colors = ['#3498db', '#2ecc71', '#f1c40f', '#e74c3c', '#9b59b6'];
+            
+            // Create confetti pieces
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = (Math.random() * 5) + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Different shapes
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '50%';
+                } else if (Math.random() > 0.5) {
+                    confetti.style.width = '20px';
+                    confetti.style.height = '6px';
+                }
+                
+                confettiContainer.appendChild(confetti);
+            }
+        });
+    </script>
+</body>
+</html>

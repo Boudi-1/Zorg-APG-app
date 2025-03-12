@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Dagvaardingen Automatisering</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome voor iconen -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #003366; /* Flanderijn blauw */
+            --secondary-color: #0066cc;
+            --accent-color: #ff6600; /* Flanderijn oranje */
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .sidebar {
+            background-color: var(--primary-color);
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            color: white;
+            transition: margin-left 0.3s;
+            z-index: 999;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar-header img {
+            max-width: 40px;
+            margin-right: 10px;
+        }
+        
+        .sidebar ul li a {
+            padding: 15px 20px;
+            display: block;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .sidebar ul li.active a {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--accent-color);
+            font-weight: 600;
+        }
+        
+        .sidebar-footer {
+            padding: 20px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            font-size: 0.8rem;
+        }
+        
+        #content {
+            transition: margin-left 0.3s;
+            margin-left: 250px;
+        }
+        
+        .sidebar.active {
+            margin-left: -250px;
+        }
+        
+        #content.active {
+            margin-left: 0;
+        }
+        
+        .navbar {
+            padding: 15px 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .app-card {
+            transition: all 0.3s;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
+        .workflow-step {
+            position: relative;
+            padding-bottom: 30px;
+        }
+        
+        .workflow-step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 30px;
+            background-color: var(--secondary-color);
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+        
+        .contact-info {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .contact-info a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                margin-left: -250px;
+            }
+            
+            .sidebar.active {
+                margin-left: 0;
+            }
+            
+            #content {
+                margin-left: 0;
+            }
+            
+            #content.active {
+                margin-left: 250px;
+            }
+        }
+    </style>
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-gavel me-2"></i>
+                <h3>Flanderijn B.V.</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="{% if request.path == '/' %}active{% endif %}">
+                    <a href="{{ url_for('home') }}">
+                        <i class="fas fa-home me-2"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="{% if '/app1' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('app1_index') }}">
+                        <i class="fas fa-file-word me-2"></i>
+                        Stap 1: Templates
+                    </a>
+                </li>
+                <li class="{% if '/app2' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('app2_index') }}">
+                        <i class="fas fa-file-invoice me-2"></i>
+                        Stap 2: Facturen
+                    </a>
+                </li>
+                <li class="{% if '/app3' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('app3_index') }}">
+                        <i class="fas fa-file-signature me-2"></i>
+                        Stap 3: Dagvaardingen
+                    </a>
+                </li>
+            </ul>
+
+            <div class="contact-info">
+                <p><i class="fas fa-envelope me-2"></i>Support: <a href="mailto:i.boudinov@flanderijn.nl">i.boudinov@flanderijn.nl</a></p>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>© 2024 Flanderijn B.V.</p>
+                <p>Dagvaardingen Automatisering</p>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <div class="d-flex align-items-center">
+                        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-home me-1"></i> Dashboard
+                        </a>
+                        <a href="mailto:i.boudinov@flanderijn.nl" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope me-1"></i> Contact Support
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid py-4">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery (nodig voor sommige interacties) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                console.log('Sidebar toggle button clicked');
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+        });
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

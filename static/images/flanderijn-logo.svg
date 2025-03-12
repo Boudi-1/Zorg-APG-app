@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
+  <!-- Hexagon shape -->
+  <path d="M55 25 L20 85 L55 125 L95 85 L55 25" fill="#1a4d9e" />
+  
+  <!-- Inner shapes -->
+  <path d="M55 35 L30 85 L55 115 L85 85 L55 35" fill="#3a6db4" />
+  <path d="M55 45 L40 85 L55 105 L75 85 L55 45" fill="#5a8dca" />
+  <path d="M55 55 L45 85 L55 95 L65 85 L55 55" fill="#7aaddf" />
+  
+  <!-- Text "Flanderijn" -->
+  <text x="110" y="85" font-family="Arial, sans-serif" font-size="40" font-weight="bold">Flanderijn</text>
+  
+  <!-- Slogan "Samen eruit komen." -->
+  <text x="110" y="110" font-family="Arial, sans-serif" font-size="16" fill="#3a6db4">Samen eruit komen.</text>
+</svg> 

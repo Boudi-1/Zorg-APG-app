@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                <p class="text-muted mt-2">
+                    Welkom bij het applicatie dashboard. Selecteer een van de onderstaande applicaties om te starten.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Status Cards -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Applicaties</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-folder fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Status</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Actief</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Systeem</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Normaal</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-server fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Laatste update</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Vandaag</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Applicatie Cards -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Beschikbare Applicaties</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for app in apps %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card app-card shadow-sm h-100">
+                            <div class="card-body text-center">
+                                {% if loop.index == 1 %}
+                                <div class="app-icon"><i class="fas fa-file-alt"></i></div>
+                                {% elif loop.index == 2 %}
+                                <div class="app-icon"><i class="fas fa-chart-bar"></i></div>
+                                {% else %}
+                                <div class="app-icon"><i class="fas fa-table"></i></div>
+                                {% endif %}
+                                <h5 class="card-title">{{ app.name }}</h5>
+                                <p class="card-text flex-grow-1">{{ app.description }}</p>
+                                <a href="{{ app.route }}" class="btn btn-primary mt-auto">
+                                    <i class="fas fa-arrow-right me-1"></i> Start {{ app.name }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

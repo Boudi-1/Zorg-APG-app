@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verwerking Geslaagd - Flanderijn B.V.</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #003366; /* Flanderijn blauw */
+            --secondary-color: #0066cc;
+            --accent-color: #ff6600; /* Flanderijn oranje */
+            --success-color: #28a745;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .success-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .success-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            max-height: 60px;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success-color);
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .success-message {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .files-list {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            max-height: 250px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .file-icon {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .file-icon.word {
+            color: #4285f4;
+        }
+
+        .file-icon.excel {
+            color: #0f9d58;
+        }
+
+        .file-icon.pdf {
+            color: #db4437;
+        }
+
+        .action-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            border: none;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent-color);
+            border: none;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e55c00;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .next-steps {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #e9f5fe;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .next-steps h5 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .next-steps ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0;
+        }
+        
+        .support-info {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step.active .step-number {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .step.completed .step-number {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .step-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .step-connector {
+            position: absolute;
+            top: 20px;
+            height: 2px;
+            background-color: #e9ecef;
+            width: 100%;
+            left: -50%;
+            z-index: 0;
+        }
+        
+        .step:first-child .step-connector {
+            display: none;
+        }
+        
+        .step.completed .step-connector, .step.active .step-connector {
+            background-color: var(--success-color);
+        }
+    </style>
+</head>
+<body>
+    <main class="success-container">
+        <div class="logo-container">
+            <img src="/static/images/flanderijn-logo.svg" alt="Flanderijn B.V. Logo" class="logo">
+        </div>
+        
+        <div class="step-indicator">
+            <div class="step completed">
+                <div class="step-connector"></div>
+                <div class="step-number">1</div>
+                <div class="step-title">Templates</div>
+            </div>
+            <div class="step completed">
+                <div class="step-connector"></div>
+                <div class="step-number">2</div>
+                <div class="step-title">Facturen</div>
+            </div>
+            <div class="step completed">
+                <div class="step-connector"></div>
+                <div class="step-number">3</div>
+                <div class="step-title">Dagvaardingen</div>
+            </div>
+        </div>
+        
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        
+        <h2>Verwerking Geslaagd!</h2>
+        <p class="success-message">De dagvaardingen zijn succesvol gegenereerd en klaar om te downloaden.</p>
+        
+        {% if processed_files %}
+            <div class="files-list">
+                <h5 class="mb-3"><i class="fas fa-file-alt me-2"></i>Gegenereerde bestanden:</h5>
+                <ul class="list-unstyled">
+                    {% for file in processed_files %}
+                        <li class="file-item">
+                            {% if file.endswith('.docx') %}
+                                <i class="fas fa-file-word file-icon word"></i>
+                            {% elif file.endswith('.xlsx') %}
+                                <i class="fas fa-file-excel file-icon excel"></i>
+                            {% elif file.endswith('.pdf') %}
+                                <i class="fas fa-file-pdf file-icon pdf"></i>
+                            {% else %}
+                                <i class="fas fa-file file-icon"></i>
+                            {% endif %}
+                            <span>{{ file }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="alert alert-info mb-4">
+                <i class="fas fa-info-circle me-2"></i>Geen bestanden gegenereerd.
+            </div>
+        {% endif %}
+        
+        <div class="action-links">
+            <a href="/app3/download" class="btn btn-success">
+                <i class="fas fa-download me-2"></i>Download Dagvaardingen
+            </a>
+            
+            <div class="d-flex gap-2 mt-2">
+                <a href="/app3/" class="btn btn-primary flex-grow-1">
+                    <i class="fas fa-arrow-left me-2"></i>Terug naar Generator
+                </a>
+                <a href="/terug-naar-dashboard" class="btn btn-secondary flex-grow-1">
+                    <i class="fas fa-home me-2"></i>Terug naar Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <div class="next-steps">
+            <h5><i class="fas fa-list-check me-2"></i>Volgende stappen:</h5>
+            <ul>
+                <li>Download de gegenereerde dagvaardingen</li>
+                <li>Controleer de documenten op juistheid</li>
+                <li>Verstuur de dagvaardingen naar de betreffende partijen</li>
+            </ul>
+        </div>
+        
+        <div class="support-info">
+            <p>Voor hulp, neem contact op met: <a href="mailto:i.boudinov@flanderijn.nl">i.boudinov@flanderijn.nl</a></p>
+        </div>
+        
+        <p id="error-message" class="error-message">
+            <i class="fas fa-times-circle me-2"></i>Download mislukt. Bestand niet gevonden.
+        </p>
+    </main>
+
+    <script>
+        function downloadFile() {
+            const errorMessage = document.getElementById("error-message");
+            errorMessage.style.display = "none";
+
+            fetch('/app3/download')
+                .then(response => {
+                    if (!response.ok) {
+                        errorMessage.style.display = "block";
+                        throw new Error("Bestand niet gevonden");
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'dagvaardingen.zip';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error("Fout bij downloaden:", error);
+                    errorMessage.style.display = "block";
+                });
+        }
+    </script>
+</body>
+</html>

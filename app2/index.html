@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturen Uploaden - Flanderijn B.V.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .drag-over {
+            border-color: #3B82F6;
+            background-color: #EFF6FF;
+        }
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            color: #3B82F6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .info-box {
+            background-color: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.375rem;
+        }
+        .btn-primary {
+            background-color: #003366;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #002244;
+        }
+        .btn-secondary {
+            background-color: #ff6600;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #e55c00;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen flex items-center justify-center p-4 font-inter">
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-blue-800 mb-2">(Deel 2) Facturen Verwerken</h1>
+                <p class="text-gray-600">Upload facturen voor verwerking in het systeem</p>
+            </div>
+            <img src="/static/images/flanderijn-logo.svg" alt="Flanderijn B.V. Logo" class="h-12">
+        </div>
+
+        <div class="info-box mb-6">
+            <h3 class="font-bold text-amber-800 mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Belangrijke informatie</h3>
+            <p class="text-amber-700">Na het verwerken van de facturen dient u zelf de volgende gegevens in te vullen in de Excel template:</p>
+            <ul class="list-disc ml-6 mt-2 text-amber-700">
+                <li><strong>BGK (Buitengerechtelijke incassokosten)</strong> - Vul deze handmatig in, uit FLIDS</li>
+                <li><strong>Rente</strong> - Vul de juiste rentebedragen in, uit FLIDS</li>
+                <li><strong>Ontvangsten</strong> - Vul de datum(in deze formaat: xx.xx.xxxx) en bedragen in van reeds ontvangen betalingen</li>
+            </ul>
+        </div>
+
+        <form 
+            id="uploadForm" 
+            action="/app2/upload" 
+            method="POST" 
+            enctype="multipart/form-data"
+            class="border-2 border-dashed border-blue-200 rounded-lg p-6 text-center transition-all duration-300 mb-6"
+        >
+            <input 
+                type="file" 
+                name="files" 
+                id="fileInput"
+                multiple 
+                webkitdirectory 
+                class="hidden"
+                accept=".pdf,.docx,.xlsx"
+            />
+            
+            <div class="py-8">
+                <i class="fas fa-cloud-upload-alt text-5xl text-blue-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Sleep bestanden hierheen</h3>
+                <p class="text-gray-500 mb-4">of</p>
+                <button 
+                    type="button" 
+                    id="browseButton"
+                    class="btn-primary px-6 py-3 rounded-lg font-medium transition-colors"
+                >
+                    Kies bestanden
+                </button>
+                <p class="text-sm text-gray-500 mt-4">Ondersteunde formaten: PDF, DOCX, XLSX</p>
+            </div>
+        </form>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <a href="/app1/" class="btn-secondary px-4 py-3 rounded-lg font-medium transition-colors text-center">
+                <i class="fas fa-arrow-left mr-2"></i> Naar Stap 1
+            </a>
+            <a href="/terug-naar-dashboard" class="bg-gray-200 hover:bg-gray-300 px-4 py-3 rounded-lg font-medium transition-colors text-center text-gray-700">
+                <i class="fas fa-home mr-2"></i> Terug naar Dashboard
+            </a>
+            <a href="/app3/" class="btn-primary px-4 py-3 rounded-lg font-medium transition-colors text-center">
+                <i class="fas fa-arrow-right mr-2"></i> Naar Stap 3
+            </a>
+        </div>
+
+        <div class="border-t border-gray-200 pt-4">
+            <h3 class="text-lg font-semibold mb-3">Hulp nodig?</h3>
+            <p class="text-gray-600">Voor vragen of ondersteuning kunt u contact opnemen met: <a href="mailto:i.boudinov@flanderijn.nl" class="text-blue-600 hover:underline">i.boudinov@flanderijn.nl</a></p>
+        </div>
+    </div>
+
+    <script>
+        const dropArea = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('fileInput');
+        const browseButton = document.getElementById('browseButton');
+
+        // Trigger file input when button is clicked
+        browseButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                uploadForm.submit();
+            }
+        });
+
+        // Prevent default behavior for drag events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight drop area when dragging files over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropArea.classList.add('drag-over');
+        }
+
+        function unhighlight() {
+            dropArea.classList.remove('drag-over');
+        }
+
+        // Handle dropped files
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                fileInput.files = files;
+                uploadForm.submit();
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagvaardingen Genereren - Flanderijn B.V.</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #003366; /* Flanderijn blauw */
+            --secondary-color: #0066cc;
+            --accent-color: #ff6600; /* Flanderijn oranje */
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #28a745;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            color: white !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .page-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-header h1 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-header p {
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            border-top-left-radius: 8px !important;
+            border-top-right-radius: 8px !important;
+            padding: 1rem 1.5rem;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--dark-color);
+            border: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            background-color: transparent;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e55c00;
+            border-color: #e55c00;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ced4da;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(0, 102, 204, 0.25);
+        }
+        
+        .info-box {
+            background-color: #e9f5fe;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .warning-box {
+            background-color: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step.active .step-number {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .step.completed .step-number {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .step-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .step-connector {
+            position: absolute;
+            top: 20px;
+            height: 2px;
+            background-color: #e9ecef;
+            width: 100%;
+            left: -50%;
+            z-index: 0;
+        }
+        
+        .step:first-child .step-connector {
+            display: none;
+        }
+        
+        .step.completed .step-connector, .step.active .step-connector {
+            background-color: var(--success-color);
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .navigation-buttons a {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .support-info {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/terug-naar-dashboard">
+                <img src="/static/images/flanderijn-logo.svg" alt="Flanderijn B.V. Logo">
+                Dagvaardingen Automatisering
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app1/">
+                            <i class="fas fa-file-word me-1"></i> Stap 1
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app2/">
+                            <i class="fas fa-file-invoice me-1"></i> Stap 2
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/app3/">
+                            <i class="fas fa-file-signature me-1"></i> Stap 3
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/terug-naar-dashboard">
+                            <i class="fas fa-home me-1"></i> Dashboard
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container text-center">
+            <h1><i class="fas fa-file-signature me-2"></i>Stap 3: Dagvaardingen Genereren</h1>
+            <p>Combineer de output van stap 1 en 2 om de definitieve dagvaardingen te genereren en te exporteren.</p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="step-indicator">
+            <div class="step completed">
+                <div class="step-connector"></div>
+                <div class="step-number">1</div>
+                <div class="step-title">Templates Voorbereiden</div>
+            </div>
+            <div class="step completed">
+                <div class="step-connector"></div>
+                <div class="step-number">2</div>
+                <div class="step-title">Facturen Verwerken</div>
+            </div>
+            <div class="step active">
+                <div class="step-connector"></div>
+                <div class="step-number">3</div>
+                <div class="step-title">Dagvaardingen Genereren</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-cogs me-2"></i>Dagvaardingen Generator
+                    </div>
+                    <div class="card-body">
+                        <div class="info-box mb-4">
+                            <h5 class="mb-2"><i class="fas fa-info-circle me-2"></i>Instructies</h5>
+                            <p class="mb-0">In deze stap worden de dagvaardingen gegenereerd door de gegevens uit stap 2 (facturen) te combineren met de templates uit stap 1. Het systeem koppelt de juiste gegevens aan de templates op basis van het dossiernummer.</p>
+                        </div>
+
+                        <ul class="nav nav-tabs mb-4" id="processTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#single" type="button" role="tab">
+                                    <i class="fas fa-file me-1"></i> Enkele Verwerking
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="bulk-tab" data-bs-toggle="tab" data-bs-target="#bulk" type="button" role="tab">
+                                    <i class="fas fa-copy me-1"></i> Bulk Verwerking
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="processTabsContent">
+                            <div class="tab-pane fade show active" id="single" role="tabpanel">
+                                <form action="/app3/process_single" method="post" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="templateFile" class="form-label">Template Bestand (uit Stap 1)</label>
+                                        <input type="file" class="form-control" id="templateFile" name="template_file" required>
+                                        <div class="form-text">Selecteer het Word template bestand (.docx) dat in Stap 1 is gegenereerd.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="dataFile" class="form-label">Data Bestand (uit Stap 2)</label>
+                                        <input type="file" class="form-control" id="dataFile" name="data_file" required>
+                                        <div class="form-text">Selecteer het Excel bestand (.xlsx) met de factuurgegevens uit Stap 2.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="dossiernummer" class="form-label">Dossiernummer</label>
+                                        <input type="text" class="form-control" id="dossiernummer" name="dossiernummer" required>
+                                        <div class="form-text">Voer het dossiernummer in om de juiste gegevens te koppelen.</div>
+                                    </div>
+                                    
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-cog me-1"></i> Genereer Dagvaarding
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="bulk" role="tabpanel">
+                                <div class="warning-box mb-4">
+                                    <h5 class="mb-2"><i class="fas fa-exclamation-triangle me-2"></i>Bulk Verwerking</h5>
+                                    <p class="mb-0">Bij bulk verwerking worden meerdere dagvaardingen tegelijk gegenereerd. Het systeem koppelt automatisch de juiste gegevens aan de templates op basis van het dossiernummer. Zorg ervoor dat alle bestanden de juiste dossiernummers bevatten.</p>
+                                </div>
+                                
+                                <form action="/app3/process_bulk" method="post" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="templatesFolder" class="form-label">Templates Map (uit Stap 1)</label>
+                                        <input type="file" class="form-control" id="templatesFolder" name="templates_folder" webkitdirectory directory multiple required>
+                                        <div class="form-text">Selecteer de map met Word templates (.docx) die in Stap 1 zijn gegenereerd.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="dataFolder" class="form-label">Data Map (uit Stap 2)</label>
+                                        <input type="file" class="form-control" id="dataFolder" name="data_folder" webkitdirectory directory multiple required>
+                                        <div class="form-text">Selecteer de map met Excel bestanden (.xlsx) met de factuurgegevens uit Stap 2.</div>
+                                    </div>
+                                    
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-cogs me-1"></i> Genereer Alle Dagvaardingen
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation-buttons">
+                    <a href="/app2/" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Terug naar Stap 2
+                    </a>
+                    <a href="/terug-naar-dashboard" class="btn btn-outline-primary">
+                        <i class="fas fa-home me-2"></i>Terug naar Dashboard
+                    </a>
+                </div>
+
+                <div class="support-info">
+                    <p>Voor hulp, neem contact op met: <a href="mailto:i.boudinov@flanderijn.nl">i.boudinov@flanderijn.nl</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

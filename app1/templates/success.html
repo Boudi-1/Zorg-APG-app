@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ Verwerking Geslaagd</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        :root {
+            --success-color: #2ecc71;
+            --primary-color: #0078D7;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f3f6fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .success-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .success-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+
+        .action-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .action-links a {
+            text-decoration: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: block;
+        }
+
+        .download-link {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .download-link:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .back-link {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .back-link:hover {
+            background-color: #005a9e;
+            transform: scale(1.05);
+        }
+        
+        .dashboard-link {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .dashboard-link:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <main class="success-container">
+        <div class="success-icon">✅</div>
+        <h2>Verwerking Geslaagd!</h2>
+        <p style="color: #555; font-size: 18px;">Je bestanden zijn succesvol verwerkt.</p>
+        <div class="action-links">
+            <a href="/app1/download" class="download-link">⬇️ Download ZIP bestand</a>
+            <a href="/app1/" class="back-link">🔙 Terug naar Upload</a>
+            <a href="/terug-naar-dashboard" class="dashboard-link">🏠 Terug naar Dashboard</a>
+        </div>
+    </main>
+</body>
+</html>

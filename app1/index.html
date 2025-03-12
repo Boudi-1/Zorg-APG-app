@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Templates Voorbereiden - Flanderijn B.V.</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #003366; /* Flanderijn blauw */
+            --secondary-color: #0066cc;
+            --accent-color: #ff6600; /* Flanderijn oranje */
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #333;
+        }
+        
+        .upload-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-container:hover {
+            box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .logo-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            max-height: 60px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 2rem 1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .file-upload-area:hover, .file-upload-area.dragover {
+            border-color: var(--accent-color);
+            background-color: rgba(255, 102, 0, 0.05);
+        }
+        
+        .file-upload-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        input[type="file"] {
+            margin-bottom: 1rem;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 12px 20px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background: var(--accent-color);
+            border: none;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #e55c00;
+        }
+        
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .back-link:hover {
+            color: var(--accent-color);
+            transform: translateX(-5px);
+        }
+        
+        .info-box {
+            background-color: #e9f5fe;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .navigation-buttons a {
+            flex: 1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main class="upload-container">
+        <div class="logo-container">
+            <img src="/static/images/flanderijn-logo.svg" alt="Flanderijn B.V. Logo" class="logo">
+        </div>
+        
+        <h2><i class="fas fa-file-word me-2"></i>Stap 1: Templates Voorbereiden</h2>
+        
+        <div class="info-box">
+            <h5 class="mb-2"><i class="fas fa-info-circle me-2"></i>Instructies</h5>
+            <p class="mb-0">Upload een map met Excel bestanden en Word templates voor dagvaardingen. Het systeem zoekt de juiste eisen in de Excel bestanden en past de templates aan.</p>
+        </div>
+        
+        <form action="/app1/upload" method="post" enctype="multipart/form-data">
+            <div class="file-upload-area" id="dropArea">
+                <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                <h5>Sleep uw map hier naartoe</h5>
+                <p class="text-muted">of</p>
+                <input 
+                    type="file" 
+                    name="files" 
+                    id="fileInput"
+                    multiple 
+                    webkitdirectory 
+                    required 
+                    aria-label="Selecteer bestanden"
+                    class="form-control"
+                >
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-rocket me-2"></i>Verwerken
+            </button>
+        </form>
+        
+        <div class="navigation-buttons">
+            <a href="/terug-naar-dashboard" class="btn btn-outline-secondary">
+                <i class="fas fa-home me-2"></i>Terug naar Dashboard
+            </a>
+            <a href="/app2/" class="btn btn-secondary">
+                <i class="fas fa-arrow-right me-2"></i>Naar Stap 2
+            </a>
+        </div>
+        
+        <div class="mt-4">
+            <p class="text-muted"><small>Voor hulp, neem contact op met: <a href="mailto:i.boudinov@flanderijn.nl">i.boudinov@flanderijn.nl</a></small></p>
+        </div>
+    </main>
+    
+    <script>
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        
+        // Prevent default behavior
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        // Highlight drop area when dragging files over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.classList.add('dragover');
+        }
+        
+        function unhighlight() {
+            dropArea.classList.remove('dragover');
+        }
+        
+        // Handle dropped files
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                fileInput.files = files;
+            }
+        }
+    </script>
+</body>
+</html>
+
+

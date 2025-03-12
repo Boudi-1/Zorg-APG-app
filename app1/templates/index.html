@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📂 Bestanden Uploaden</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f3f6fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        .upload-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .upload-container:hover {
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+            transition: all 0.3s ease-in-out;
+        }
+        input[type="file"] {
+            margin-bottom: 1rem;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #0078D7, #005a9e);
+            border: none;
+            color: white;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #005a9e, #003f75);
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            color: #0078D7;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <main class="upload-container">
+        <h2>📤 (Deel 1)Upload je Folder voor een Dagvaarding Template</h2>
+        <form action="/app1/upload" method="post" enctype="multipart/form-data">
+            <input 
+                type="file" 
+                name="files" 
+                multiple 
+                webkitdirectory 
+                required 
+                aria-label="Selecteer bestanden"
+            >
+            <button type="submit">🚀 Verwerken</button>
+        </form>
+        <a href="/terug-naar-dashboard" class="back-link">Terug naar Dashboard</a>
+    </main>
+</body>
+</html>
+
+
